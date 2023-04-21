@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:swifty_companion/views/search_user/widgets/search_user_bar.dart';
 
-class SearchUserScreen extends StatefulWidget {
-  const SearchUserScreen({super.key});
+class SearchUserView extends StatefulWidget {
+  const SearchUserView({super.key});
 
   @override
-  State<SearchUserScreen> createState() => _SearchUserScreenState();
+  State<SearchUserView> createState() => _SearchUserViewState();
 }
 
-class _SearchUserScreenState extends State<SearchUserScreen> {
+class _SearchUserViewState extends State<SearchUserView> {
   // This controller will store the value of the search bar
   final TextEditingController _searchController = TextEditingController();
 

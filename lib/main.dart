@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:swifty_companion/views/home/index.dart';
 import 'package:swifty_companion/views/login/index.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: '.env');
   runApp(const SwiftyCompanion());
 }
 
@@ -33,9 +35,8 @@ class SwiftyCompanion extends StatelessWidget {
           },
         ),
       ),
-      initialRoute: '/',
+      initialRoute: '/login',
       routes: {
-        '/': (context) => const HomeScreen(),
         '/login': (context) => const LoginScreen(),
       },
     );
