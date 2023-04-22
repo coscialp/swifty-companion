@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:swifty_companion/views/home/index.dart';
 import 'package:swifty_companion/views/login/index.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 

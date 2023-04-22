@@ -1,18 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:swifty_companion/models/user.model.dart';
 
-class SkillsDetail extends StatefulWidget {
+class SkillsDetail extends StatelessWidget {
   final User currentUser;
   const SkillsDetail({super.key, required this.currentUser});
-
-  @override
-  State<SkillsDetail> createState() =>
-      _SkillsDetailState(currentUser: currentUser);
-}
-
-class _SkillsDetailState extends State<SkillsDetail> {
-  final User currentUser;
-  _SkillsDetailState({required this.currentUser});
 
   @override
   Widget build(BuildContext context) {

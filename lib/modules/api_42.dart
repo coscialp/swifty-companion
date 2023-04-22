@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -54,6 +55,30 @@ class Api42 {
     } catch (e) {
       debugPrint(e.toString());
       return null;
+    }
+  }
+
+  static Future<List<String>> searchUserByLogin(String query) async {
+    final accessToken = await SecureStorage.read('access_token');
+
+    try {
+      final response = await Request.get(
+        Uri.parse('https://$_baseUrl/v2/users?filter[login]=$query'),
+        headers: {
+          'Authorization': 'Bearer $accessToken',
+        },
+      );
+
+      log(response.toString(), name: 'searchUserByLogin');
+
+      final List<String> users = response
+          .map<String>((user) => user['login'] as String)
+          .toList(growable: false);
+
+      return users;
+    } catch (e) {
+      debugPrint(e.toString());
+      return [];
     }
   }
 }

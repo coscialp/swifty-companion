@@ -3,18 +3,10 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:swifty_companion/models/user.model.dart';
 
-class ProfileHeader extends StatefulWidget {
+class ProfileHeader extends StatelessWidget {
   final User currentUser;
+
   const ProfileHeader({super.key, required this.currentUser});
-
-  @override
-  State<ProfileHeader> createState() =>
-      _ProfileHeaderState(currentUser: currentUser);
-}
-
-class _ProfileHeaderState extends State<ProfileHeader> {
-  final User currentUser;
-  _ProfileHeaderState({required this.currentUser});
 
   @override
   Widget build(BuildContext context) {

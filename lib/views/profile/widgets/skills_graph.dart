@@ -3,18 +3,10 @@ import 'package:flutter_radar_chart/flutter_radar_chart.dart';
 
 import 'package:swifty_companion/models/user.model.dart';
 
-class SkillsGraph extends StatefulWidget {
+class SkillsGraph extends StatelessWidget {
   final User currentUser;
   const SkillsGraph({super.key, required this.currentUser});
 
-  @override
-  State<SkillsGraph> createState() =>
-      _SkillsGraphState(currentUser: currentUser);
-}
-
-class _SkillsGraphState extends State<SkillsGraph> {
-  final User currentUser;
-  _SkillsGraphState({required this.currentUser});
   @override
   Widget build(BuildContext context) {
     return Padding(

@@ -1,29 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:swifty_companion/models/project.model.dart';
 import 'package:swifty_companion/models/user.model.dart';
 
-class ProjectsDetail extends StatefulWidget {
+class ProjectsDetail extends StatelessWidget {
   final User currentUser;
-  const ProjectsDetail({super.key, required this.currentUser});
+  final List<Project> currentProjects;
 
-  @override
-  State<ProjectsDetail> createState() =>
-      _ProjectsDetailState(currentUser: currentUser);
-}
-
-class _ProjectsDetailState extends State<ProjectsDetail> {
-  final User currentUser;
-  List<Project> currentProjects = [];
-
-  _ProjectsDetailState({required this.currentUser}) {
-    for (Project project in currentUser.projects) {
-      if (project.cursusName.contains('42-cursus')) {
-        currentProjects.add(project);
-      }
-    }
-  }
+  const ProjectsDetail(
+      {super.key, required this.currentUser, required this.currentProjects});
 
   @override
   Widget build(BuildContext context) {
@@ -64,13 +48,7 @@ class _ProjectsDetailState extends State<ProjectsDetail> {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
-                            color: project.status == 'in_progress' ||
-                                    project.status == 'searching_a_group'
-                                ? Colors.orange
-                                : project.finalMark != null &&
-                                        project.finalMark! >= 80
-                                    ? Colors.green
-                                    : Colors.red,
+                            color: project.color,
                           ),
                         ),
                       ),
