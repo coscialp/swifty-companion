@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:swifty_companion/models/coalition.model.dart';
 import 'package:swifty_companion/models/user.model.dart';
 import 'package:swifty_companion/views/profile/profile_user.dart';
 import 'package:swifty_companion/views/search_user/index.dart';
 
 class HomeScreen extends StatefulWidget {
   final User currentUser;
-  const HomeScreen({Key? key, required this.currentUser}) : super(key: key);
+  final Coalition userCoalition;
+  const HomeScreen(
+      {Key? key, required this.currentUser, required this.userCoalition})
+      : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState(currentUser: currentUser);
+  State<HomeScreen> createState() =>
+      _HomeScreenState(currentUser: currentUser, userCoalition: userCoalition);
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   int currentIndex = 0;
   final User currentUser;
+  final Coalition userCoalition;
 
-  _HomeScreenState({required this.currentUser});
+  _HomeScreenState({required this.currentUser, required this.userCoalition});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Center(
         child: currentIndex == 0
-            ? ProfileView(currentUser: currentUser)
+            ? ProfileView(
+                currentUser: currentUser, userCoalition: userCoalition)
             : const SearchUserView(),
       ),
       bottomNavigationBar: BottomNavigationBar(

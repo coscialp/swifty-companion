@@ -5,6 +5,8 @@ import 'package:swifty_companion/modules/secure_storage.dart';
 import 'package:swifty_companion/views/home/index.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../models/coalition.model.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -34,9 +36,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 _isLoading = false;
               });
               final code = Uri.parse(request.url).queryParameters['code'];
-              await Api42.generateToken(code!);
+              await Api42.generateToken(code: code);
               final User? user = await Api42.getUser();
               if (user == null) {
+                return NavigationDecision.prevent;
+              }
+              final Coalition? userCoalition =
+                  await Api42.getCoalition(user.login);
+              if (userCoalition == null) {
                 return NavigationDecision.prevent;
               }
               await SecureStorage.write('user', user.toJson());
@@ -45,7 +52,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => HomeScreen(currentUser: user),
+                      builder: (context) => HomeScreen(
+                          currentUser: user, userCoalition: userCoalition),
                     ),
                   );
                 }

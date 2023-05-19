@@ -25,18 +25,21 @@ class SkillsGraph extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
-              SizedBox(
-                height: 300,
-                child: RadarChart.light(
-                  ticks: const [5, 10, 15, 20],
-                  features: currentUser.skills
-                      .map<String>((skill) => skill.name)
-                      .toList(),
-                  data: [
-                    currentUser.skills.map((skill) => skill.level).toList()
-                  ],
-                ),
-              ),
+              currentUser.skills.isEmpty
+                  ? const Text('No skills found')
+                  : SizedBox(
+                      height: 300,
+                      child: RadarChart.light(
+                        ticks: const [5, 10, 15, 20],
+                        features: currentUser.skills
+                            .map<String>((skill) => skill.name)
+                            .toList(),
+                        data: [
+                          currentUser.skills
+                              .map((skill) => skill.level)
+                              .toList()
+                        ],
+                      )),
             ],
           ),
         ),

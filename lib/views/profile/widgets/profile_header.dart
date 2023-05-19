@@ -1,20 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:swifty_companion/models/coalition.model.dart';
 import 'package:swifty_companion/models/user.model.dart';
 
 class ProfileHeader extends StatelessWidget {
   final User currentUser;
+  final Coalition userCoalition;
 
-  const ProfileHeader({super.key, required this.currentUser});
+  const ProfileHeader(
+      {super.key, required this.currentUser, required this.userCoalition});
 
   @override
   Widget build(BuildContext context) {
+    debugPrint(userCoalition.name);
+    String coverImage = 'air_coalition_cover.jpg';
+    if (userCoalition.name == 'Water') {
+      coverImage = 'water_coalition_cover.png';
+    } else if (userCoalition.name == 'Fire') {
+      coverImage = 'fire_coalition_cover.jpg';
+    } else if (userCoalition.name == 'Earth') {
+      coverImage = 'earth_coalition_cover.jpg';
+    }
+
     return Stack(
       children: [
         Image.asset(
-          'assets/images/water_coalition_cover.png',
+          'assets/images/$coverImage',
           fit: BoxFit.cover,
+          height: 275.0,
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -55,7 +67,7 @@ class ProfileHeader extends StatelessWidget {
                             Text(
                               currentUser.login,
                               style: const TextStyle(
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.white,
                               ),
@@ -63,7 +75,7 @@ class ProfileHeader extends StatelessWidget {
                             Text(
                               currentUser.email,
                               style: const TextStyle(
-                                fontSize: 16,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.white,
                               ),
@@ -71,7 +83,7 @@ class ProfileHeader extends StatelessWidget {
                             Text(
                               'Wallets: ${currentUser.wallets}₳',
                               style: const TextStyle(
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.white,
                               ),
@@ -98,7 +110,7 @@ class ProfileHeader extends StatelessWidget {
                             backgroundColor:
                                 Theme.of(context).primaryColor.withOpacity(0.8),
                             valueColor: AlwaysStoppedAnimation(
-                                Colors.blue[400]?.withOpacity(0.8)),
+                                userCoalition.color.withOpacity(0.8)),
                           ),
                         ),
                         Padding(

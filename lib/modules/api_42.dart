@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:swifty_companion/models/coalition.model.dart';
 import 'package:swifty_companion/models/user.model.dart';
 import 'package:swifty_companion/modules/request.dart';
 import 'package:swifty_companion/modules/secure_storage.dart';
@@ -13,6 +14,7 @@ class Api42 {
   static final String _clientId = dotenv.env['CLIENT_ID']!;
   static final String _clientSecret = dotenv.env['CLIENT_SECRET']!;
   static final String _redirectUri = dotenv.env['REDIRECT_URI']!;
+  static late String _authenticateCode;
 
   static get authorizeUri {
     return Uri.https(_baseUrl, '/oauth/authorize', {
@@ -23,7 +25,12 @@ class Api42 {
     });
   }
 
-  static Future<void> generateToken(String code) async {
+  static Future<void> generateToken({String? code}) async {
+    if (code != null) {
+      await SecureStorage.write('authenticateCode', code);
+    }
+    _authenticateCode =
+        (await SecureStorage.read('authenticateCode')).toString();
     final url = Uri.https(_baseUrl, 'oauth/token');
 
     final response = await http.post(url, body: {
@@ -31,7 +38,7 @@ class Api42 {
       'client_id': _clientId,
       'client_secret': _clientSecret,
       'redirect_uri': _redirectUri,
-      'code': code,
+      'code': _authenticateCode,
     });
 
     final responseJson = jsonDecode(response.body);
@@ -63,7 +70,8 @@ class Api42 {
 
     try {
       final response = await Request.get(
-        Uri.parse('https://$_baseUrl/v2/users?filter[login]=$query'),
+        Uri.parse(
+            'https://$_baseUrl/v2/users?range[login]=$query,${query}zzzzz'),
         headers: {
           'Authorization': 'Bearer $accessToken',
         },
@@ -79,6 +87,24 @@ class Api42 {
     } catch (e) {
       debugPrint(e.toString());
       return [];
+    }
+  }
+
+  static Future<Coalition?> getCoalition(String username) async {
+    final accessToken = await SecureStorage.read('access_token');
+
+    try {
+      final response = await Request.get(
+        Uri.parse('https://$_baseUrl/v2/users/$username/coalitions'),
+        headers: {
+          'Authorization': 'Bearer $accessToken',
+        },
+      );
+
+      return Coalition.fromJson(response[0]);
+    } catch (e) {
+      debugPrint(e.toString());
+      return null;
     }
   }
 }

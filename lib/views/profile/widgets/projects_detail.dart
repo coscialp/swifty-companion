@@ -27,34 +27,36 @@ class ProjectsDetail extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
-              ListView(
-                shrinkWrap: true,
-                physics: const ClampingScrollPhysics(),
-                children: currentProjects
-                    .map<Widget>(
-                      (project) => ListTile(
-                        title: Text(
-                          project.name,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                          ),
-                        ),
-                        subtitle: Text(
-                          project.finalMark != null
-                              ? '${project.status} - ${project.finalMark}%'
-                              : project.status,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: project.color,
-                          ),
-                        ),
-                      ),
-                    )
-                    .toList(),
-              ),
+              currentProjects.isEmpty
+                  ? const Text('No projects found')
+                  : ListView(
+                      shrinkWrap: true,
+                      physics: const ClampingScrollPhysics(),
+                      children: currentProjects
+                          .map<Widget>(
+                            (project) => ListTile(
+                              title: Text(
+                                project.name,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              subtitle: Text(
+                                project.finalMark != null
+                                    ? '${project.status} - ${project.finalMark}%'
+                                    : project.status,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: project.color,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
             ],
           ),
         ),
