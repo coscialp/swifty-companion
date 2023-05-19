@@ -16,6 +16,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
+  bool _isSpin = false;
   late WebViewController controller;
 
   _LoginScreenState() {
@@ -34,6 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
             if (request.url.startsWith('swifty://')) {
               setState(() {
                 _isLoading = false;
+                _isSpin = true;
               });
               final code = Uri.parse(request.url).queryParameters['code'];
               await Api42.generateToken(code: code);
@@ -82,7 +84,9 @@ class _LoginScreenState extends State<LoginScreen> {
           },
           child: _isLoading
               ? WebViewWidget(controller: controller)
-              : const Text('Login'),
+              : _isSpin
+                  ? const Text('Loading ...')
+                  : const Text('Login'),
         ),
       ),
     );

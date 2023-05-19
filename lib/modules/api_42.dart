@@ -31,6 +31,7 @@ class Api42 {
     }
     _authenticateCode =
         (await SecureStorage.read('authenticateCode')).toString();
+    debugPrint(_authenticateCode);
     final url = Uri.https(_baseUrl, 'oauth/token');
 
     final response = await http.post(url, body: {
